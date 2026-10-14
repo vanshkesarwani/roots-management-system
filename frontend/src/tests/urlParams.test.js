@@ -3,9 +3,6 @@ import {
   parseTaskParams,
   parseEmployeeParams,
   buildCleanSearchParams,
-  VALID_DEPARTMENTS,
-  VALID_TASK_STATUSES,
-  VALID_TASK_PRIORITIES,
 } from '../utils/urlParams.js';
 
 describe('Frontend URL Parameter Synchronization & Parsing', () => {

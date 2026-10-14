@@ -1,7 +1,19 @@
 # Roots Media Marketing — Employee & Task Management System
 **MERN Stack Developer Technical Practical Assessment**
 
+[![CI Workflow](https://github.com/vanshkesarwani/roots-management-system/actions/workflows/ci.yml/badge.svg)](https://github.com/vanshkesarwani/roots-management-system/actions/workflows/ci.yml)
+[![GitHub Release](https://img.shields.io/github/v/release/vanshkesarwani/roots-management-system?color=2563eb&label=Release&logo=github)](https://github.com/vanshkesarwani/roots-management-system/releases/latest)
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![Tests Passing](https://img.shields.io/badge/Tests-98%2F98%20Passed-10b981?logo=jest)](https://github.com/vanshkesarwani/roots-management-system/actions)
+[![Linter](https://img.shields.io/badge/Linter-0%20Errors-10b981?logo=eslint)](https://github.com/vanshkesarwani/roots-management-system)
+[![Node.js](https://img.shields.io/badge/Node.js-%E2%89%A518.0.0-339933?logo=node.js&logoColor=white)](https://nodejs.org)
+[![React](https://img.shields.io/badge/React-19-61DAFB?logo=react&logoColor=black)](https://react.dev)
+[![Express](https://img.shields.io/badge/Express-4.21-000000?logo=express&logoColor=white)](https://expressjs.com)
+[![MongoDB](https://img.shields.io/badge/MongoDB-Atlas%20%7C%20Mongoose-47A248?logo=mongodb&logoColor=white)](https://mongodb.com)
+
 A production-grade Employee & Task Management System built strictly according to the Roots Media Marketing technical specifications, business rules, API contracts, and UI design references.
+
+🔗 **Quick Links**: [Releases](https://github.com/vanshkesarwani/roots-management-system/releases) • [Issues](https://github.com/vanshkesarwani/roots-management-system/issues) • [Contributing](CONTRIBUTING.md) • [Security Policy](SECURITY.md) • [License](LICENSE) • [Submission Archive (.zip)](https://github.com/vanshkesarwani/roots-management-system/releases/download/v1.0.0/Vansh_Kesarwani.zip)
 
 ---
 
