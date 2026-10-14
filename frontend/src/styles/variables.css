@@ -1,0 +1,64 @@
+:root {
+  /* Brand & Core Palette (Roots Media Marketing) */
+  --color-primary: #8c3a3a;
+  --color-primary-hover: #752d2d;
+  --color-primary-light: #fdf2f2;
+  --color-header-bg: #1e2022;
+  --color-header-text: #ffffff;
+  --color-bg-page: #f4f6f8;
+  --color-card-bg: #ffffff;
+  --color-border: #e2e8f0;
+  --color-border-input: #cbd5e1;
+  --color-border-focus: #8c3a3a;
+  --color-text-main: #1e293b;
+  --color-text-muted: #64748b;
+  --color-text-light: #94a3b8;
+
+  /* Status Colors */
+  --status-todo-bg: #64748b;
+  --status-todo-text: #ffffff;
+  --status-inprogress-bg: #2563eb;
+  --status-inprogress-text: #ffffff;
+  --status-completed-bg: #16a34a;
+  --status-completed-text: #ffffff;
+  --status-cancelled-bg: #b45309;
+  --status-cancelled-text: #ffffff;
+  --color-overdue: #dc2626;
+
+  /* Priority Colors */
+  --priority-critical-bg: #fef2f2;
+  --priority-critical-text: #dc2626;
+  --priority-critical-border: #fecaca;
+
+  --priority-high-bg: #fff7ed;
+  --priority-high-text: #ea580c;
+  --priority-high-border: #fed7aa;
+
+  --priority-medium-bg: #eff6ff;
+  --priority-medium-text: #2563eb;
+  --priority-medium-border: #bfdbfe;
+
+  --priority-low-bg: #f0fdf4;
+  --priority-low-text: #16a34a;
+  --priority-low-border: #bbf7d0;
+
+  /* Typography */
+  --font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 1rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.25rem;
+  --font-size-2xl: 1.5rem;
+  --font-size-3xl: 1.875rem;
+
+  /* Layout & Elevations */
+  --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+  --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1), 0 4px 6px -2px rgba(0, 0, 0, 0.05);
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 8px;
+  --radius-full: 9999px;
+  --transition-fast: 150ms ease;
+}
