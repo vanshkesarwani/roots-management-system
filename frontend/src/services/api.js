@@ -9,9 +9,24 @@ const api = axios.create({
 
 api.interceptors.response.use(
   (response) => response,
-  (error) => {
+  async (error) => {
+    let message = error.response?.data?.message || error.message || 'Something went wrong';
+
+    // Handle Blob error responses (e.g. server returned JSON error during CSV export with responseType: 'blob')
+    if (error.response?.data instanceof Blob) {
+      try {
+        const text = await error.response.data.text();
+        const parsed = JSON.parse(text);
+        if (parsed?.message) {
+          message = parsed.message;
+        }
+      } catch {
+        // Fallback to default message
+      }
+    }
+
     const customError = {
-      message: error.response?.data?.message || error.message || 'Something went wrong',
+      message,
       status: error.response?.status,
       errors: error.response?.data?.errors || [],
     };

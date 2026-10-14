@@ -236,11 +236,30 @@ export const TaskEditPage = () => {
                     required
                   >
                     <option value="">Select Employee...</option>
-                    {employees.map((emp) => (
-                      <option key={emp._id} value={emp._id}>
-                        {emp.fullName} ({emp.department} - {emp.status})
-                      </option>
-                    ))}
+                    {employees.map((emp) => {
+                      const isCurrent = (task.assignedEmployee?._id || task.assignedEmployee) === emp._id;
+                      const count = emp.activeTaskCount || 0;
+                      const isAtCapacity = !isCurrent && count >= 3;
+                      const isInactive = emp.status === 'Inactive';
+                      const labelSuffix = isCurrent
+                        ? `(Currently Assigned - ${count}/3)`
+                        : isAtCapacity
+                        ? `(At Capacity - 3/3 tasks)`
+                        : isInactive
+                        ? `(Inactive - Cannot Assign)`
+                        : emp.status === 'On Leave'
+                        ? `(On Leave)`
+                        : `(${count}/3 active tasks)`;
+                      return (
+                        <option
+                          key={emp._id}
+                          value={emp._id}
+                          disabled={isAtCapacity || isInactive}
+                        >
+                          {emp.fullName} - {emp.department} {labelSuffix}
+                        </option>
+                      );
+                    })}
                   </select>
                 </FormField>
 
