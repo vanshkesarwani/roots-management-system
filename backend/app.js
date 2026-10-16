@@ -6,6 +6,7 @@ import taskRoutes from './routes/taskRoutes.js';
 import dashboardRoutes from './routes/dashboardRoutes.js';
 import { errorHandler } from './middlewares/errorHandler.js';
 import { AppError } from './utils/AppError.js';
+import { connectDB } from './config/db.js';
 
 const app = express();
 
@@ -52,6 +53,17 @@ if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
 // Health check endpoint
 app.get('/api/health', (req, res) => {
   res.status(200).json({ status: 'ok', uptime: process.uptime(), timestamp: new Date() });
+});
+
+// Ensure database connection is active before processing data routes (essential for serverless)
+app.use('/api', async (req, res, next) => {
+  if (req.path === '/health') return next();
+  try {
+    await connectDB();
+    next();
+  } catch (err) {
+    next(err);
+  }
 });
 
 // API Routes

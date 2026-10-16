@@ -75,4 +75,10 @@ process.on('unhandledRejection', async (reason) => {
   process.exit(1);
 });
 
-startServer();
+if (!process.env.VERCEL) {
+  startServer();
+} else {
+  connectDB().catch((err) => console.error('[Vercel Serverless] DB connection failed:', err));
+}
+
+export default app;
