@@ -79,7 +79,13 @@ export const EmployeeListPage = () => {
           setPagination(res.data.pagination);
         }
       } catch (err) {
-        if (err.name === 'CanceledError' || axios.isCancel?.(err)) {
+        if (
+          signal?.aborted ||
+          err?.name === 'CanceledError' ||
+          axios.isCancel?.(err) ||
+          err?.code === 'ERR_CANCELED' ||
+          err?.message === 'canceled'
+        ) {
           // Newer request superseded this one; ignore safely
           return;
         }
@@ -87,7 +93,9 @@ export const EmployeeListPage = () => {
         setFetchError(msg);
         toastError(msg);
       } finally {
-        setLoading(false);
+        if (!signal?.aborted) {
+          setLoading(false);
+        }
       }
     },
     [currentFilters, toastError]

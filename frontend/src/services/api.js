@@ -10,6 +10,11 @@ const api = axios.create({
 api.interceptors.response.use(
   (response) => response,
   async (error) => {
+    // If request was canceled by AbortController, preserve native cancellation error
+    if (axios.isCancel(error) || error?.name === 'CancelledError' || error?.code === 'ERR_CANCELED') {
+      return Promise.reject(error);
+    }
+
     let message = error.response?.data?.message || error.message || 'Something went wrong';
 
     // Handle Blob error responses (e.g. server returned JSON error during CSV export with responseType: 'blob')
@@ -25,11 +30,11 @@ api.interceptors.response.use(
       }
     }
 
-    const customError = {
-      message,
-      status: error.response?.status,
-      errors: error.response?.data?.errors || [],
-    };
+    const customError = new Error(message);
+    customError.name = error.name || 'ApiError';
+    customError.status = error.response?.status;
+    customError.errors = error.response?.data?.errors || [];
+    customError.response = error.response;
     return Promise.reject(customError);
   }
 );

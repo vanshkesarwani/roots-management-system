@@ -89,7 +89,13 @@ export const TaskListPage = () => {
           setPagination(res.data.pagination);
         }
       } catch (err) {
-        if (err.name === 'CanceledError' || axios.isCancel?.(err)) {
+        if (
+          signal?.aborted ||
+          err?.name === 'CanceledError' ||
+          axios.isCancel?.(err) ||
+          err?.code === 'ERR_CANCELED' ||
+          err?.message === 'canceled'
+        ) {
           // Stale request aborted; do not show error
           return;
         }
@@ -97,7 +103,9 @@ export const TaskListPage = () => {
         setFetchError(msg);
         toastError(msg);
       } finally {
-        setLoading(false);
+        if (!signal?.aborted) {
+          setLoading(false);
+        }
       }
     },
     [currentFilters, toastError]
