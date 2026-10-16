@@ -1,9 +1,13 @@
 import mongoose from 'mongoose';
-import { MongoMemoryServer } from 'mongodb-memory-server';
 
 let mongoMemoryServer = null;
 
 export const connectDB = async () => {
+  // If already connected (e.g. serverless warm container), reuse connection
+  if (mongoose.connection.readyState === 1) {
+    return mongoose.connection;
+  }
+
   const uri = process.env.MONGODB_URI;
 
   if (uri && uri.trim() !== '') {
@@ -16,15 +20,16 @@ export const connectDB = async () => {
       return conn;
     } catch (err) {
       console.warn(`[Database] Could not connect to configured MONGODB_URI: ${err.message}`);
-      if (process.env.NODE_ENV === 'production') {
+      if (process.env.NODE_ENV === 'production' || process.env.VERCEL) {
         throw err;
       }
       console.log('[Database] Falling back to automated in-memory MongoDB server for local development...');
     }
   }
 
-  // Fallback to in-memory MongoDB server
+  // Fallback to in-memory MongoDB server (development & test only)
   try {
+    const { MongoMemoryServer } = await import('mongodb-memory-server');
     mongoMemoryServer = await MongoMemoryServer.create();
     const memUri = mongoMemoryServer.getUri();
     const conn = await mongoose.connect(memUri);

@@ -300,31 +300,71 @@ npm run build
 
 ## 🚢 Deployment Guide
 
-### Option A: Frontend Deployment (Vercel)
-1. Push project to GitHub.
-2. In the Vercel Dashboard, import the repository.
-3. Configure settings:
-   - **Root Directory**: `frontend`
-   - **Framework Preset**: `Vite`
-   - **Build Command**: `npm run build`
-   - **Output Directory**: `dist`
-4. Environment Variables:
-   - `VITE_API_BASE_URL`: `https://your-backend-service.onrender.com/api`
-5. Click **Deploy**. SPA client-side routing is handled via `frontend/vercel.json`.
+### Option 1: All-in-One Full-Stack Monorepo Deployment (Vercel — Recommended)
 
-### Option B: Backend Deployment (Render / Railway)
-1. In the Render / Railway Dashboard, create a **Web Service**.
-2. Connect the repository.
-3. Configure settings:
-   - **Root Directory**: `backend` (or root with start script)
-   - **Build Command**: `npm install`
-   - **Start Command**: `node server.js`
-4. Set Environment Variables:
-   - `PORT`: `5001`
+This project is configured out-of-the-box to deploy both the **React 19 Frontend** and **Serverless Express API** simultaneously on Vercel under a single domain with zero CORS issues.
+
+#### Step-by-Step Vercel Setup:
+1. Push your latest code to your GitHub repository:
+   ```bash
+   git add .
+   git commit -m "feat: configure Vercel full-stack deployment"
+   git push origin main
+   ```
+2. Navigate to [Vercel Dashboard](https://vercel.com/new) and click **"Add New..." $\rightarrow$ "Project"**.
+3. Import your GitHub repository (`roots-management-system`).
+4. Configure Project Settings:
+   - **Framework Preset**: `Vite` (or `Other`)
+   - **Root Directory**: `./` (leave default, do NOT change)
+   - **Build Command**: `npm run build`
+   - **Output Directory**: `frontend/dist` (handled automatically by `vercel.json`)
+   - **Install Command**: `npm install`
+5. Under **Environment Variables**, add:
+   - `MONGODB_URI`: `mongodb+srv://<user>:<password>@cluster0.example.mongodb.net/roots_management?retryWrites=true&w=majority`
    - `NODE_ENV`: `production`
-   - `MONGODB_URI`: `mongodb+srv://<user>:<password>@cluster0.example.mongodb.net/roots_management`
-   - `CLIENT_URL`: `https://your-frontend-app.vercel.app`
-5. Click **Deploy**.
+6. Click **Deploy**.
+   - Vercel builds the React frontend to `frontend/dist`.
+   - Vercel automatically deploys `api/index.js` as an auto-scaling Serverless Function for all `/api/*` endpoints.
+   - If the database is empty on first boot, it automatically seeds the initial 12 employees and 40 tasks.
+
+---
+
+### Option 2: Deploying via Vercel CLI
+
+You can also deploy directly from your terminal:
+```bash
+# 1. Log in to Vercel (if not already logged in)
+npx vercel login
+
+# 2. Preview Deployment
+npx vercel
+
+# 3. Add MongoDB connection secret
+npx vercel env add MONGODB_URI production
+
+# 4. Production Deployment
+npx vercel --prod
+```
+
+---
+
+### Option 3: Separate Deployments (Frontend on Vercel + Backend on Render/Railway)
+
+If you prefer hosting the Express backend on a long-running container service (Render, Railway, Fly.io):
+
+#### Frontend (Vercel):
+1. In Vercel, set **Root Directory** to `frontend`.
+2. Add Environment Variable:
+   - `VITE_API_BASE_URL`: `https://your-backend-service.onrender.com/api`
+3. Click **Deploy**. Client-side SPA routing is handled via `frontend/vercel.json`.
+
+#### Backend (Render / Railway):
+1. Create a Web Service and set **Root Directory** to `backend`.
+2. Build Command: `npm install` | Start Command: `node server.js`
+3. Add Environment Variables:
+   - `MONGODB_URI`: your MongoDB Atlas URI
+   - `CLIENT_URL`: `https://your-frontend.vercel.app` (note: `*.vercel.app` is also auto-allowed)
+   - `NODE_ENV`: `production`
 
 ---
 

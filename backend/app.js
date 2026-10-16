@@ -25,6 +25,14 @@ app.use(
       if (!origin || allowedOrigins.includes('*') || allowedOrigins.includes(origin)) {
         return callback(null, true);
       }
+      try {
+        const hostname = new URL(origin).hostname;
+        if (hostname.endsWith('.vercel.app')) {
+          return callback(null, true);
+        }
+      } catch {
+        // invalid URL origin, fall through
+      }
       return callback(new AppError(`Origin ${origin} not allowed by CORS`, 403));
     },
     methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE', 'OPTIONS'],
@@ -37,7 +45,7 @@ app.use(
 app.use(express.json({ limit: '10mb' }));
 app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 
-if (process.env.NODE_ENV !== 'test') {
+if (process.env.NODE_ENV !== 'test' && !process.env.VERCEL) {
   app.use(morgan('dev'));
 }
 
